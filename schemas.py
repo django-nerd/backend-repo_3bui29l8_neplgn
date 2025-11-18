@@ -14,8 +14,7 @@ Model name is converted to lowercase for the collection name:
 from pydantic import BaseModel, Field
 from typing import Optional
 
-# Example schemas (replace with your own):
-
+# Example schemas (you can keep these around if you want to experiment)
 class User(BaseModel):
     """
     Users collection schema
@@ -38,11 +37,19 @@ class Product(BaseModel):
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
 
-# Add your own schemas here:
-# --------------------------------------------------
+# Study tool schemas
+class StudySession(BaseModel):
+    """
+    Study sessions started by users
+    Collection name: "studysession"
+    """
+    title: str = Field(..., description="Display title for the session")
 
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+class Message(BaseModel):
+    """
+    Chat messages belonging to a session
+    Collection name: "message"
+    """
+    session_id: str = Field(..., description="ID of the associated StudySession (string)")
+    role: str = Field(..., description="'user' or 'assistant'")
+    content: str = Field(..., description="Message text content")
